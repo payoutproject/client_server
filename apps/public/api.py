@@ -1413,6 +1413,7 @@ class PublicAPIView(viewsets.ViewSet):
             confirm_tot = 0.0
             today_confirm_tot = 0.0
             statusname = Choices_to_Dict('qrcode_status')[item.status]
+            print(item.url)
 
             all_tot = 0.0
             today_all_tot = 0.0
@@ -1432,6 +1433,7 @@ class PublicAPIView(viewsets.ViewSet):
             data.append({
                 "statusname" : statusname,
                 "createtime" : timestamp_toTime(item.createtime),
+                "url": item.url,
                 "confirm_tot" : round(confirm_tot,2),
                 "today_confirm_tot" : round(today_confirm_tot,2),
                 "all_tot" : round(all_tot,2),

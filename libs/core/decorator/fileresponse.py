@@ -31,6 +31,7 @@ import base64
 class Core_connector:
     def __init__(self,**kwargs):
 
+        self.transaction = False
         pass
 
     #前置处理
@@ -40,7 +41,11 @@ class Core_connector:
 
     def __run(self,func,outside_self,request,*args, **kwargs):
 
-        res = func(outside_self, request, *args, **kwargs)
+        if self.transaction:
+            with transaction.atomic():
+                res = func(outside_self, request, *args, **kwargs)
+        else:
+            res = func(outside_self, request, *args, **kwargs)
 
         if not isinstance(res, dict):
             res = {'data': None, 'msg': None, 'header': None}
