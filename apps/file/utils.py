@@ -34,18 +34,5 @@ def qrtypeHandler(request,url,name):
         "type": request.data.get("qrtype")
     }
 
-    QrcodeObj = Qrcode.objects.create(**create_order_dict)
 
-    print(url)
-    decode_res = decode_qr(url)
-
-    if not decode_res:
-        raise PubErrorCustom("上传失败,请稍等再试!")
-
-    # decode_res="localhost:8001/statics/images/20200228/copy6_timg (2).jpg"
-
-    QrcodeObj.url = decode_res
-    QrcodeObj.path = url
-    QrcodeObj.save()
-
-    return None
+    return create_order_dict

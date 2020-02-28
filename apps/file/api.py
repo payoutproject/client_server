@@ -7,6 +7,10 @@ from education.settings import IMAGE_PATH
 from education.config.common import ServerUrl
 from libs.utils.mytime import UtilTime
 from libs.utils.exceptions import PubErrorCustom
+from libs.utils.qrcode import decode_qr
+from apps.utils import url_join
+from apps.user.models import Token
+from apps.public.models import Qrcode,WechatHelper,QrType
 from rest_framework.decorators import list_route
 from apps.file.utils import qrtypeHandler
 
@@ -26,7 +30,7 @@ class FileAPIView(viewsets.ViewSet):
 
             outpath = "{}/statics/images/{}/{}".format(ServerUrl,timestr,file_obj.name)
             name = file_obj.name
-            qrtypeHandler(request=request,url=outpath,name=name)
+            obj = qrtypeHandler(request=request,url=outpath,name=name)
 
             # if os.path.exists(os.path.join(path,file_obj.name)):
             #     # c=0
@@ -45,6 +49,20 @@ class FileAPIView(viewsets.ViewSet):
             with open(os.path.join(path,file_obj.name),'wb+') as f:
                 for chunk in file_obj.chunks():
                     f.write(chunk)
+
+            QrcodeObj = Qrcode.objects.create(**obj)
+
+            print(outpath)
+            decode_res = decode_qr(outpath)
+
+            if not decode_res:
+                raise PubErrorCustom("上传失败,请稍等再试!")
+
+            # decode_res="localhost:8001/statics/images/20200228/copy6_timg (2).jpg"
+
+            QrcodeObj.url = decode_res
+            QrcodeObj.path = outpath
+            QrcodeObj.save()
 
             return {"data":{
                 "path": outpath,
