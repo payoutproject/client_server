@@ -31,7 +31,7 @@ import base64
 class Core_connector:
     def __init__(self,**kwargs):
 
-        self.transaction = False
+        self.transaction = kwargs.get("transaction",None)
         pass
 
     #前置处理
