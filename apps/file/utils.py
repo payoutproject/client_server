@@ -26,7 +26,7 @@ def qrtypeHandler(request,url,name):
             raise PubErrorCustom("一个昵称只能存一张二维码!")
 
     create_order_dict = {
-        "name": name,
+        "name": name.split('.')[0],
         "status": '3',
         "updtime": 0,
         "userid": result.userid,

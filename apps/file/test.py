@@ -26,4 +26,4 @@ if __name__ == '__main__':
 
 
     # 解析网络二维码
-    print(decode_qr('http://120.76.240.175/nginx_upload/image/1.jpg'))
+    print(decode_qr('http://47.56.249.165/nginx_upload/%E8%AF%9A%E6%97%BA.jpg'))
