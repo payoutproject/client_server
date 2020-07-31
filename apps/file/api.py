@@ -28,7 +28,7 @@ class FileAPIView(viewsets.ViewSet):
             timestr = UtilTime().arrow_to_string(format_v="YYYYMMDD")
             path = os.path.join(IMAGE_PATH, '{}'.format(timestr))
 
-            outpath = "{}/statics/images/{}/{}".format(ServerUrl,timestr,file_obj.name)
+            outpath = "{}/static/images/{}/{}".format(ServerUrl,timestr,file_obj.name)
             name = file_obj.name
             obj = qrtypeHandler(request=request,url=outpath,name=name)
 
